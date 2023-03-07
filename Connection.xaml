@@ -1,0 +1,13 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       
+      xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="WpfApp2.Connection"
+       
+      Title="Connection">
+    <Grid VerticalAlignment="Top" HorizontalAlignment="Left" ShowGridLines="True">
+        <Label x:Name="MyLabel" Margin="1,1,108,74" Content="Mot de passe maitre" />
+        <PasswordBox x:Name="MyPasswordBox" Background="White" Margin="44,28,44,54" />
+        <Button Content="Se connecter" Margin="56,63,56,25" />
+    </Grid>
+</Page>
