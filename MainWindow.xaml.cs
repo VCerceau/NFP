@@ -25,67 +25,44 @@ namespace WpfApp2
         {
             InitializeComponent();
             MainFrame.Navigate(new DashboardPage());
-            string dbPath = "myDatabase.db";
 
-            // Vérification si le fichier de base de données existe déjà
-            if (!System.IO.File.Exists(dbPath))
+            using (var db = new DB())
             {
-                // Création de la connexion
-                SQLiteConnection.CreateFile(dbPath);
-                SQLiteConnection connection = new SQLiteConnection("Data Source=" + dbPath + ";Version=3;");
-                connection.Open();
+                db.Database.EnsureCreated();
+                var users = db.Users.ToList();
 
-                // Création de la table
-                string createUserQuery = "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, password TEXT)";
-                SQLiteCommand createTableCommand = new SQLiteCommand(createUserQuery, connection);
-                createTableCommand.ExecuteNonQuery();
-
-                string createPassQuery = "CREATE TABLE pass (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, url TEXT, password TEXT, is_superpassword BOOL)";
-                SQLiteCommand createPassCommand = new SQLiteCommand(createPassQuery, connection);
-                createPassCommand.ExecuteNonQuery();
-
-                MainFrame.Navigate(new FirstConnection());
-
-                // Fermeture de la connexion
-                connection.Close();
-
-            }
-            else
-            {
-                SQLiteConnection connection = new SQLiteConnection("Data Source=" + dbPath + ";Version=3;");
-                connection.Open();
-
-                SQLiteCommand cmd;
-                SQLiteDataReader dataReader;
-                string sql = "Select * from users";
-                cmd = new SQLiteCommand(sql, connection);
-                dataReader = cmd.ExecuteReader();
-                Console.WriteLine("Data from the Database..");
-                if (!dataReader.Read()){
-                    MainFrame.Navigate(new FirstConnection());
+                if (users.Count < 0)
+                {
+                    MainFrame.Navigate(new FirstConnection(this));
                 }
                 else
                 {
-                    MainFrame.Navigate(new Connection());
+                    MainFrame.Navigate(new Connection(this));
                 }
-                while (dataReader.Read())
-                {
-
-                    MessageBox.Show(dataReader.GetValue(0) + " || " +
-                                        dataReader.GetValue(1));
-                }
-
-                dataReader.Close();
-
-                // Fermeture de la connexion
-                connection.Close();
             }
+        }
 
+        public void InformationText(string text)
+        {
+            this.Information.Text = "Information : " + text;
         }
 
         public void NavigateToConnectionPage()
         {
-            MainFrame.Navigate(new Connection());
+            MainFrame.Navigate(new Connection(this));
+        }
+        public void To_Tableau(MainWindow mainWindow)
+        {
+            // Naviguer vers la page du tableau
+            if (Session.Key != null)
+            {
+                MainFrame.Navigate(new Tableau(mainWindow));
+            }
+            else
+            {
+                MessageBox.Show("You need to be connected");
+                MainFrame.Navigate(new Connection(mainWindow));
+            }
         }
 
         private void Dashboard_Click(object sender, RoutedEventArgs e)
@@ -94,21 +71,19 @@ namespace WpfApp2
             MainFrame.Navigate(new DashboardPage());
         }
 
+
+
+
         private void Tableau_Click(object sender, RoutedEventArgs e)
         {
-            // Naviguer vers la page du tableau
-            MainFrame.Navigate(new Tableau(this));
+            To_Tableau(this);
         }
-        
+
         private void Connection_Click(object sender, RoutedEventArgs e)
         {
             // Naviguer vers la page de Connection
-            MainFrame.Navigate(new Connection());
+            MainFrame.Navigate(new Connection(this));
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("aa");
-        }
     }
 }

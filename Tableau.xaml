@@ -1,9 +1,11 @@
 ﻿<Page x:Class="WpfApp2.Tableau"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Title="Tableau">
-    <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Height="150" Width="326" ShowGridLines="True">
-        ##Ajouter Border
+      Title="Tableau"
+      ScrollBar.Scroll="S"
+      >
+    <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Height="184" Width="346">
+        <!-- Ajouter Border -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -11,17 +13,19 @@
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Label x:Name="WebsiteLabel" Margin="0,0,0,37" Content="Website Name" Grid.Row="0"/>
-        <TextBox x:Name="WebsiteBox" Text="Website" Background="White" GotFocus="WebsiteBox_GotFocus" LostFocus="WebsiteBox_LostFocus" Grid.Row="0" Margin="0,38,45,0" FontSize="20"/>
+        <TextBox x:Name="WebsiteBox" Background="White" Grid.Row="0" Margin="0,38,45,0" FontSize="20"/>
 
         <Label x:Name="UrlLabel" Margin="0,0,0,37" Content="Website URL" Grid.Row="0" Grid.Column="1"/>
-        <TextBox x:Name="UrlBox" Text="https:website.url" Background="White" GotFocus="UrlBox_GotFocus" LostFocus="UrlBox_LostFocus" Grid.Row="0" Grid.Column="1" Margin="0,38,0,0" FontSize="16"/>
+        <TextBox x:Name="UrlBox" Background="White" Grid.Row="0" Grid.Column="1" Margin="0,38,0,0" FontSize="16"/>
 
         <Label x:Name="UsernameLabel" Margin="0,0,0,37" Content="Username" Grid.Row="1"/>
-        <TextBox x:Name="UsernameBox" Text="Username" Background="White" GotFocus="UsernameBox_GotFocus" LostFocus="UsernameBox_LostFocus" Grid.Row="1" Margin="0,37,45,0" FontSize="20"/>
+        <TextBox x:Name="UsernameBox" Background="White" Grid.Row="1" Margin="0,37,45,0" FontSize="20"/>
 
         <Label x:Name="PasswordLabel" Margin="0,0,0,37" Content="Password" Grid.Row="1" Grid.Column="1"/>
-        <TextBox x:Name="PasswordBox" Text="Password" Background="White" GotFocus="PasswordBox_GotFocus" LostFocus="PasswordBox_LostFocus" Grid.Row="1" Grid.Column="1" Margin="0,37,0,0" FontSize="20"/>
+        <TextBox x:Name="PasswordBox" Background="White" Grid.Row="1" Grid.Column="1" Margin="0,37,0,0"/>
+        <Button x:Name="AddButton" Grid.Row="2" Grid.Column="1" Margin="107,23,0,10" Content="Ajouter" HorizontalContentAlignment="Center"/>
     </Grid>
 </Page>

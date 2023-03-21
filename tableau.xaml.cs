@@ -25,7 +25,7 @@ namespace WpfApp2
 
         public Tableau(MainWindow mainWindow)
         {
-            if (User.Key != null)
+            if (Session.Key != null)
             {
                 InitializeComponent();
                 string dbPath = "myDatabase.db";
@@ -47,8 +47,9 @@ namespace WpfApp2
             }
             else
             {
+                InitializeComponent();
                 MessageBox.Show("oui");
-                mainWindow.MainFrame.Navigate(new Connection());
+                mainWindow.MainFrame.Navigate(new Connection(mainWindow));
             }
         }
         private void UsernameBox_GotFocus(object sender, RoutedEventArgs e)

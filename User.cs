@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace WpfApp2
 {
-    static class User
+
+    [Table("users")]
+    public class User
     {
-        public static string? Key { get; set; }
+        private string password;
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [Column("password")]
+        public string Password { get => password; set => password = value; }
     }
 }

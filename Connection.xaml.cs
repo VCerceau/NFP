@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 
 namespace WpfApp2
 {
@@ -23,9 +25,12 @@ namespace WpfApp2
     /// </summary>
     public partial class Connection : Page
     {
+        private MainWindow mainWindow;
 
-        public Connection()
+
+        public Connection(MainWindow mainWindow)
         {
+            this.mainWindow = mainWindow;
             string dbPath = "myDatabase.db";
             InitializeComponent();
             SQLiteConnection dbconnection = new SQLiteConnection("Data Source=" + dbPath + ";Version=3;");
@@ -45,74 +50,30 @@ namespace WpfApp2
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string dbPath = "myDatabase.db";
             InitializeComponent();
-            SQLiteConnection dbconnection = new SQLiteConnection("Data Source=" + dbPath + ";Version=3;");
-            dbconnection.Open();
-            SQLiteCommand cmd;
-            SQLiteDataReader dataReader;
-            string sql = "Select password from users";
-            cmd = new SQLiteCommand(sql, dbconnection);
-            dataReader = cmd.ExecuteReader();
-            if (dataReader.Read())
+
+            using (var db = new DB())
             {
+                db.Database.EnsureCreated();
+                var users = db.Users.First();
+
+                Hash hashObject = new Hash();
                 string password = PasswordBox.Password;
 
-                if (password != null)
+                if (users.Password == hashObject.doubleHash(password))
                 {
-                    // Créez un objet SHA256 pour générer un hachage SHA256
-                    SHA256 sha256 = SHA256.Create();
-
-                    // Convertissez la chaîne en tableau de bytes
-                    byte[] inputBytes = Encoding.ASCII.GetBytes(password);
-
-                    // Calculez le hachage SHA256 de la chaîne
-                    byte[] hash = sha256.ComputeHash(inputBytes);
-
-                    // Convertissez le hachage en chaîne hexadécimale
-                    string hashedpass = BitConverter.ToString(hash).Replace("-", "");
-
-                    string word = "d&K#sL@1i^Fg8p!v7$U6hTzVQoJjW9uPxYOyZmE2cNl05eAbSa4qrXwRtI3n";
-
-                    byte[] key = new byte[32]; // Clé de 256 bits
-                    byte[] iv = new byte[16]; // Vecteur d'initialisation de 128 bits
-
-                    using (Aes aes = Aes.Create())
-                    {
-                        aes.Key = key;
-                        aes.IV = iv;
-
-                        // Créer un déchiffreur pour déchiffrer les données
-                        ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                    Session.Key = hashObject.simpleHash(password);
 
 
-                        // Convertir la chaîne de caractères chiffrée en tableau d'octets
-                        byte[] ciphertextBytes = Convert.FromBase64String(dataReader.GetValue(0).ToString());
-
-                        // Déchiffrer les données
-                        byte[] plaintextBytes = decryptor.TransformFinalBlock(ciphertextBytes, 0, ciphertextBytes.Length);
-
-                        // Convertir le résultat déchiffré en chaîne de caractères
-                        string plaintext = Encoding.UTF8.GetString(plaintextBytes);
-
-                        if (word == plaintext)
-                        {
-                            MessageBox.Show("connected");
-                            User.Key = hashedpass;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Password Incorrect" + plaintext + word);
-                        }
-                    }
+                    this.mainWindow.InformationText("Connected !");
+                    this.mainWindow.ConnectNavButton.Visibility = Visibility.Hidden;
+                    this.mainWindow.To_Tableau(this.mainWindow);
                 }
-                else 
+                else
                 {
-                    MessageBox.Show("Entre a password please");
+                    MessageBox.Show("Password Incorrect");
                 }
 
-                
-                dbconnection.Close();
             }
         }
     }

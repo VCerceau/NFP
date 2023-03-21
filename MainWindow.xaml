@@ -19,8 +19,13 @@
             <StackPanel>
                 <Button Content="Dashboard" Click="Dashboard_Click" Margin="0,5,0,5"/>
                 <Button Content="Tableau" Click="Tableau_Click" Margin="0,5,0,5"/>
-                <Button Content="Se Connecter" Click="Connection_Click" Margin="0,5,0,5"/>
+                <Button x:Name="ConnectNavButton" Content="Se Connecter" Click="Connection_Click" Margin="0,5,0,5"/>
+                <Label Height="334" Width="127" MaxWidth="127" BorderThickness="0,12,0,0">
+                    <TextBlock x:Name="Information" Text="Information :" TextWrapping="Wrap"/>
+                </Label>
             </StackPanel>
+            
+            
         </Border>
 
         <Frame x:Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden"></Frame>
