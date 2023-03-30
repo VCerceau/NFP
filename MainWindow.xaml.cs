@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp2
+namespace NeverForgetPass
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -31,7 +31,7 @@ namespace WpfApp2
                 db.Database.EnsureCreated();
                 var users = db.Users.ToList();
 
-                if (users.Count < 0)
+                if (users.Count() < 1)
                 {
                     MainFrame.Navigate(new FirstConnection(this));
                 }

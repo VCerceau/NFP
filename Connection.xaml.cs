@@ -18,7 +18,7 @@ using System.Windows.Shapes;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
-namespace WpfApp2
+namespace NeverForgetPass
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

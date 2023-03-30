@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp2
+namespace NeverForgetPass
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -36,13 +36,92 @@ namespace WpfApp2
                 string sql = "Select * from pass";
                 cmd = new SQLiteCommand(sql, dbconnection);
                 dataReader = cmd.ExecuteReader();
-
-                if (dataReader.Read()) { 
-                    while(dataReader.Read())
+                using (var db = new DB())
+                {
+                    var passList = db.Passes.ToList();
+                    if (passList!=null)
                     {
-                        Console.WriteLine("{0}\t{1}", dataReader.GetInt32(0),
-                        dataReader.GetString(1));
+                        foreach (var Data in passList)
+                        {
+                            // Create a new instance of the stack panel for each website data
+                            StackPanel stackPanel = new StackPanel();
+                            stackPanel.Name = Data.Id.ToString();
+                            stackPanel.Margin = new Thickness(5);
+
+                            // Create the content for the top stack panel
+                            StackPanel topStackPanel = new StackPanel();
+                            topStackPanel.Background = Brushes.LightGray;
+                            topStackPanel.Orientation = Orientation.Vertical;
+
+                            // Create the grid and its definitions
+                            Grid grid = new Grid();
+                            grid.RowDefinitions.Add(new RowDefinition());
+                            grid.RowDefinitions.Add(new RowDefinition());
+                            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+
+                            // Create the website name stack panel and text block
+                            StackPanel websiteNameStackPanel = new StackPanel();
+                            Label websiteNameLabel = new Label() { Content = "Website Name" };
+                            TextBlock websiteNameTextBlock = new TextBlock() { Text = Data.Name, FontSize = 20 };
+                            websiteNameStackPanel.Children.Add(websiteNameLabel);
+                            websiteNameStackPanel.Children.Add(websiteNameTextBlock);
+                            Grid.SetColumn(websiteNameStackPanel, 0);
+
+                            // Create the website URL stack panel and text block
+                            StackPanel websiteUrlStackPanel = new StackPanel();
+                            Label websiteUrlLabel = new Label() { Content = "Website URL" };
+                            TextBlock websiteUrlTextBlock = new TextBlock() { Text = Data.Url, FontSize = 16 };
+                            websiteUrlStackPanel.Children.Add(websiteUrlLabel);
+                            websiteUrlStackPanel.Children.Add(websiteUrlTextBlock);
+                            Grid.SetColumn(websiteUrlStackPanel, 1);
+
+                            // Create the username stack panel and text block
+                            StackPanel usernameStackPanel = new StackPanel();
+                            Label usernameLabel = new Label() { Content = "Username" };
+                            TextBlock usernameTextBlock = new TextBlock() { Text = Data.Username, FontSize = 20 };
+                            usernameStackPanel.Children.Add(usernameLabel);
+                            usernameStackPanel.Children.Add(usernameTextBlock);
+                            Grid.SetRow(usernameStackPanel, 1);
+                            Grid.SetColumn(usernameStackPanel, 0);
+
+                            // Create the password stack panel and text block
+                            StackPanel passwordStackPanel = new StackPanel();
+                            Label passwordLabel = new Label() { Content = "Password" };
+                            TextBlock passwordTextBlock = new TextBlock() { Text = Data.Password };
+                            passwordStackPanel.Children.Add(passwordLabel);
+                            passwordStackPanel.Children.Add(passwordTextBlock);
+                            Grid.SetRow(passwordStackPanel, 1);
+                            Grid.SetColumn(passwordStackPanel, 1);
+
+                            // Add the grid to the top stack panel
+                            grid.Children.Add(websiteNameStackPanel);
+                            grid.Children.Add(websiteUrlStackPanel);
+                            grid.Children.Add(usernameStackPanel);
+                            grid.Children.Add(passwordStackPanel);
+                            topStackPanel.Children.Add(grid);
+
+                            // Create the bottom stack panel with the Edit button
+                            StackPanel bottomStackPanel = new StackPanel();
+                            bottomStackPanel.Orientation = Orientation.Horizontal;
+                            bottomStackPanel.HorizontalAlignment = HorizontalAlignment.Right;
+                            bottomStackPanel.Margin = new Thickness(6);
+                            Button editButton = new Button() { Content = "Edit" };
+                            editButton.Width = 100;
+                            editButton.Height = 30;
+                            editButton.Name = "EditButton";
+                            editButton.Click += EditButton_Click;
+                            bottomStackPanel.Children.Add(editButton);
+
+                            // Add the top and bottom stack panels to the main stack panel
+                            stackPanel.Children.Add(topStackPanel);
+                            stackPanel.Children.Add(bottomStackPanel);
+
+                            // Add the main stack panel to your layout
+                            PasswordsListe.Children.Add(stackPanel);
+                        }
                     }
+                    
                 }
             }
             else
@@ -131,6 +210,24 @@ namespace WpfApp2
             {
                 PasswordBox.Tag = true;
             }
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (PasswordBox.Text != "" && UsernameBox.Text != "")
+            {
+                using(DB db = new DB())
+                {
+
+                    Pass pass = new Pass(UsernameBox.Text, PasswordBox.Text);
+                    db.Passes.Add(pass);
+                }
+            }
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

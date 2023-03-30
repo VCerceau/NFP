@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp2
+namespace NeverForgetPass
 {
     class Hash
     {   

@@ -16,10 +16,10 @@ using System.Windows.Shapes;
 using System;
 using System.Security.Principal;
 using Microsoft.EntityFrameworkCore;
-using WpfApp2;
+using NeverForgetPass;
 using SQLitePCL;
 
-namespace WpfApp2
+namespace NeverForgetPass
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

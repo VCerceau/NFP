@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using WpfApp2;
+using NeverForgetPass;
 
-namespace WpfApp2
+namespace NeverForgetPass
 {
     public class DB : DbContext
     {

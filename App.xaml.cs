@@ -8,7 +8,7 @@ using System.Windows;
 using System.Data.SQLite;
 using System.Security.Principal;
 
-namespace WpfApp2
+namespace NeverForgetPass
 {
 
     /// <summary>

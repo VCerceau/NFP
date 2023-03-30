@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
-namespace WpfApp2
+namespace NeverForgetPass
 {
 
     [Table("pass")]
@@ -22,15 +23,19 @@ namespace WpfApp2
         [Column("url")]
         public string Url { get; set; }
 
+        [Column("Username")]
+        public string Username { get; set; }
+
         [Column("password")]
         public string Password { get; set; }
 
-        public Pass(int id, string name, string url, string password)
+        public Pass(string username, string password, string name = "", string url = "")
         {
-            Id = id;
             Name = name;
             Url = url;
+            Username = username;
             Password = password;
         }
+
     }
 }
