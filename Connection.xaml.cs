@@ -31,16 +31,7 @@ namespace NeverForgetPass
         public Connection(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            string dbPath = "myDatabase.db";
             InitializeComponent();
-            SQLiteConnection dbconnection = new SQLiteConnection("Data Source=" + dbPath + ";Version=3;");
-            dbconnection.Open();
-            SQLiteCommand cmd;
-            SQLiteDataReader dataReader;
-            string sql = "Select * from users";
-            cmd = new SQLiteCommand(sql, dbconnection);
-            dataReader = cmd.ExecuteReader();
-            dbconnection.Close();
         }
 
         private void MyTextBox_TextChanged(object sender, TextChangedEventArgs e)

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp2", "WpfApp2.csproj", "{1383C766-116D-4870-B34A-DCB14D8BBD68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeverForgetPass", "NeverForgetPass.csproj", "{1383C766-116D-4870-B34A-DCB14D8BBD68}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{06DC1FFD-FE7D-4F58-A301-4490D79E9E25}"
 	ProjectSection(SolutionItems) = preProject
