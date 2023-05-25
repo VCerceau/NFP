@@ -11,5 +11,10 @@ namespace NeverForgetPass
     static class Session
     {
         public static string? Key { get; set; }
+
+        public static string setSession(string password)
+        {
+
+        }
     }
 }
